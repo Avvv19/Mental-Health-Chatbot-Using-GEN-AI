@@ -1,163 +1,118 @@
-# Mental-Health-Chatbot-Using-GEN-AI
-A conversational AI chatbot built with Groq Cloud, LangChain, and HuggingFace embeddings to provide mental health support through data-driven, compassionate responses.
+<div align="center">
 
-#### GenAI: A Simple Guide
-## Project Overview 🌟:
-In this project, I built a Mental Health Chatbot using GenAI technology. The idea is to create a bot that responds thoughtfully to users who need mental health support. I used HuggingFace embeddings and Groq API to make sure the chatbot gives helpful and kind responses. This chatbot can assist people who might need someone to talk to in a crisis or just for support.
+# Mental Health Chatbot Using Gen AI
 
-## Steps I Followed to Build the Chatbot 🚀 :
+### Compassionate AI-Powered Mental Health Support System
 
-Step 1: Setting Up the Environment 🔧
-The first thing I did was sign in to Groq Cloud and generate an API key. This key is essential to connect to the Groq platform and use its powerful AI models. After logging in, I created a new project and got my API key. I made sure to save it somewhere safe because it would be used later in the code.
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logoColor=white)](https://langchain.com)
+[![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logoColor=white)](https://groq.com)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co)
+[![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](https://jupyter.org)
 
-## Step 2: Configuring Google Colab 📝 :
-After getting the API key, I opened Google Colab, which is a great platform to write and run Python code. In Colab, I started by installing the necessary libraries that the chatbot would need. These libraries include LangChain, ChromaDB, and Groq API.
+</div>
 
-Here's what I added to my code:
+---
 
+## Overview
 
-from langchain.embeddings import HuggingFaceBgeEmbeddings
+A conversational AI chatbot built with **Groq Cloud**, **LangChain**, and **HuggingFace embeddings** to provide mental health support through data-driven, compassionate responses. This system leverages RAG (Retrieval-Augmented Generation) to deliver evidence-based mental health information while maintaining a warm, empathetic conversational tone.
 
-from langchain.document_loaders import PyPDFLoader, DirectoryLoader
+> **Disclaimer:** This chatbot is for informational and supportive purposes only. It is not a replacement for professional mental health care. If you are in crisis, please contact a licensed mental health professional or emergency services.
 
-from langchain.vectorstores import Chroma
+---
 
-from langchain.chains import RetrievalQA
+## Key Features
 
-from langchain.prompts import PromptTemplate
+- **Empathetic Conversations** — LLM-powered responses tuned for compassionate mental health support
+- **RAG Knowledge Base** — Evidence-based responses from curated mental health resources
+- **Groq Ultra-Fast Inference** — Near-instantaneous responses for smooth conversation flow
+- **HuggingFace Embeddings** — Semantic understanding of user concerns and emotions
+- **Safe Response Guardrails** — Built-in safety mechanisms for crisis detection
+- **Multi-Topic Support** — Anxiety, depression, stress, sleep issues, relationships, and more
+- **Conversation Memory** — Context-aware responses that remember the conversation history
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+---
 
-import os
+## Tech Stack
 
-from langchain_groq import ChatGroq
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq_Cloud-F55036?style=for-the-badge&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-FF6B35?style=for-the-badge&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
 
+---
 
-## Step 3: Initializing the Language Model (LLM) ⚙️:
+## Architecture
 
-Next, I wrote a function to initialize the ChatGroq model. This model is very efficient and helps to run AI tasks quickly, which is important for the chatbot to give fast responses. I used my Groq API key here.
+```
+User Message
+    |
+    v
+Input Safety Check
+    |
+    v
+HuggingFace Embedding Model
+    |
+    v
+Vector Similarity Search (ChromaDB/Pinecone)
+    |
+    v
+Context Retrieval from Mental Health Knowledge Base
+    |
+    v
+Groq LLM (LangChain Chain)
+    |
+    v
+Empathetic Response Generation
+    |
+    v
+Crisis Detection Filter
+    |
+    v
+Response to User
+```
 
+---
 
-def initialize_llm():
-    llm = ChatGroq(
-        temperature = 0,
-        groq_api_key = "<YOUR_API_KEY>",
-        model_name = "llama-3.3-70b-versatile"
-    )
-    return llm
+## Getting Started
 
-    
-## Step 4: Checking the create_vector_db() Function ✅ :
+```bash
+# Clone the repository
+git clone https://github.com/Avvv19/Mental-Health-Chatbot-Using-GEN-AI.git
+cd Mental-Health-Chatbot-Using-GEN-AI
 
-Before moving forward, I checked if the create_vector_db() function was working correctly. This function is very important because it helps load and manage the documents that the chatbot uses to give better answers. I made sure everything was running well before proceeding to the next steps.
+# Install dependencies
+pip install -r requirements.txt
 
-## Step 5: Setting Up the Vector Database 📚 :
+# Set API keys
+export GROQ_API_KEY=your_groq_api_key
 
-I needed a way to store and manage the text data for the chatbot to use. So, I created a vector database using ChromaDB. I split large documents into smaller chunks and used HuggingFace embeddings to represent the text as vectors. This made it easier for the chatbot to understand and respond based on the stored information.
+# Run the chatbot
+jupyter notebook mental_health_chatbot.ipynb
+```
 
+---
 
-def create_vector_db():
-    loader = DirectoryLoader("/content/data", glob = '*.pdf', loader_cls = PyPDFLoader)
-    documents = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size = 500, chunk_overlap = 50)
-    texts = text_splitter.split_documents(documents)
-    embeddings = HuggingFaceBgeEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2')
-    vector_db = Chroma.from_documents(texts, embeddings, persist_directory = './chroma_db')
-    vector_db.persist()
+## Topics Covered
 
-    print("ChromaDB created and data saved")
+- Anxiety and stress management
+- Depression awareness and coping strategies
+- Sleep hygiene and insomnia support
+- Mindfulness and meditation guidance
+- Relationship and communication support
+- Work-life balance and burnout prevention
+- Grief and loss processing
+- Self-esteem and confidence building
 
-    return vector_db
-    
-## Step 6: Setting Up the Q&A Chain 🔄 :
+---
 
-After that, I used LangChain's RetrievalQA to set up the question-answering part of the chatbot. This is where the chatbot can take input from users, search the vector database for relevant information, and then give an answer. To make sure the responses are kind and helpful, I created a PromptTemplate.
+## Author
 
+**Venkata Vivek Varma Alluru** | AI in Healthcare
 
-def setup_qa_chain(vector_db, llm):
-    retriever = vector_db.as_retriever()
-    prompt_templates = """ You are a compassionate mental health chatbot. Respond thoughtfully to the following question:
-        {context}
-        User: {question}
-        Chatbot: """
-    PROMPT = PromptTemplate(template = prompt_templates, input_variables = ['context', 'question'])
-
-    qa_chain = RetrievalQA.from_chain_type(
-        llm = llm,
-        chain_type = "stuff",
-        retriever = retriever,
-        chain_type_kwargs = {"prompt": PROMPT}
-    )
-    return qa_chain
-    
-## Step 7: Main Function and Running the Chatbot 🤖 :
-
-Finally, I wrote the main function to run everything. This function loads the vector database, sets up the chatbot, and starts a loop where users can ask the chatbot questions. The bot will keep chatting until the user types "exit".
-
-
-def main():
-    print("Initializing Chatbot.........")
-    llm = initialize_llm()
-
-    db_path = "/content/chroma_db"
-
-    if not os.path.exists(db_path):
-        vector_db  = create_vector_db()
-    else:
-        embeddings = HuggingFaceBgeEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2')
-        vector_db = Chroma(persist_directory=db_path, embedding_function=embeddings)
-    qa_chain = setup_qa_chain(vector_db, llm)
-
-    while True:
-        query = input("\nHuman: ")
-        if query.lower() == "exit":
-            print("Chatbot: Take Care of yourself, Goodbye!")
-            break
-        try:
-            response = qa_chain.run(query)
-            print(f"Chatbot: {response}")
-        except Exception as e:
-            print(f"Chatbot: An error occurred: {e}")
-        print("Loop continues")
-        
-## Key Learnings and Skills Gained 📚:
-
-Working with Cloud APIs: I learned how to use Groq Cloud and integrate it with my code to access advanced AI models.
-
-Using LangChain: I became comfortable using LangChain to create a conversational AI that can search documents and respond to users.
-
-NLP Basics: I got a better understanding of text embeddings, vector databases, and how to use them to help the chatbot understand and respond in a meaningful way.
-
-Problem-Solving: I also worked on fixing errors and issues that came up, which helped improve my debugging and problem-solving skills.
-
-## Ethical Concerns ⚖️:
-
-While this chatbot can help people with mental health support, there are a few ethical things to think about:
-
-Data Privacy: It’s really important to make sure users' personal data is safe and private when they talk to the chatbot.
-
-Bias in Responses: Sometimes, AI can give biased answers, especially if the data it was trained on is biased. This can be risky when giving mental health advice.
-
-Over-reliance on AI: The chatbot should not replace human professionals. It’s meant to be a helpful tool, but people still need real support when necessary.
-
-Content Moderation: The chatbot should be able to detect harmful or unsafe content and respond appropriately to ensure the safety of users.
-
-
-## How It Can Help the Modern World 🌍 :
-
-This chatbot can play an important role in mental health care by providing a scalable solution. Many people struggle with mental health, and sometimes they don’t have easy access to professionals. The chatbot can offer instant, compassionate support when someone needs it.
-
-Though it’s not a replacement for therapy, it can serve as a first point of contact and be a helpful tool for anyone looking for support. In the future, such AI tools can become even more helpful in providing mental health care worldwide.
-
-
-## Conclusion ✨ :
-I successfully built this chatbot using Groq Cloud, LangChain, and HuggingFace embeddings. Along the way, I learned new things about AI, cloud computing, and ethics in AI. This project showed me how AI can be used responsibly to help people with mental health issues and how it can grow into something even more useful.
-
-## Technologies Used 💻 :
-
-Python,
-Groq Cloud API,
-LangChain,
-ChromaDB,
-HuggingFace Embeddings,
-Google Colab.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/venkatavivekvarmaalluru/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Avvv19)
+[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@a.v.vivekvarma)
